@@ -34,14 +34,14 @@ typedef struct dbRecords
 	int age;
 	char city[TEXT_LEN];
 	int salary;
-	int filled;
+        int filled;
 } record;
 
 record db[NUM_OF_RECORDS];
 
 void allocBase(int numberOfRecords)
 {
-	int len = 20;
+	int len = 20; //po co tutaj ta zmienna skoro nie jest użyta?
 	for (int i = 0; i < numberOfRecords; ++i)
 	{
 		db[i].surname[0] = '\0';
@@ -75,12 +75,36 @@ int findFirst() //chcialbym, zeby ta funkcja zwracala int, zeby pozniej mogl prz
 	return i;
 }
 
+void open()
+{
+	FILE *pFILE; //identyfikator pliku
+	pFILE = fopen("baza.txt", "r");
+	int i = 0;
+	while ((fgets(buf, 256, pFILE)) != NULL)
+	{// oczywiscie nie bedzie dzialalo, bo cos z pamiecia jest nie halo
+		sscanf(buf, "%s %s %d %s %d", db[i].surname, db[i].name, &db[i].age, db[i].city, &db[i].salary);
+		++i;
+		db[i].filled = 1;
+	}
+	free(buf);
+}
+
+void save()
+{
+	FILE * pFILE;
+	pFILE = fopen("baza.txt", "w");
+	int i = 0;
+	while (db[i].filled !=0)
+	{
+		printf("%s %s %d %s %d\n", db[i].surname, db[i].name, db[i].age, db[i].city, db[i].salary);
+	}
+	fclose(pFILE);
+}
+
 void add(void)
 {
-	int i = findFirst();
-        
-        printf("Bedziemy wypelniac rekord nr %d.\n", i);
-        
+	int i = findFirst(); 
+    printf("Bedziemy wypelniac rekord nr %d.\n", i);
 	printf("Wprowadz nazwisko:\n");
 	scanf("%s", db[i].surname);
 	printf("Wprowadz imie:\n");
@@ -91,33 +115,15 @@ void add(void)
 	scanf("%s", db[i].city);
 	printf("Wprowadz pensje:\n");
 	scanf("%d", &db[i].salary);
-<<<<<<< HEAD
 	db[i].filled = 1;
 }
-
-void open()
-{
-	FILE * pFile;
-	pFile = fopen("baza.txt", "r");
-	fscanf(pFile, "%d", &NUM_OF_RECORDS);
-	printf("%d", NUM_OF_RECORDS);
-	baza_danych = (struct osoba*)malloc(100 * sizeof(struct osoba));
-	int i = 0; 
-	for (i; i<liczba_elementow; i++)
-	{
-		baza_danych[i].imie = (char*)malloc(30);
-		baza_danych[i].nazwisko = (char*)malloc(30);
-		baza_danych[i].miasto = (char*)malloc(30);
-		fscanf(pFile, "\n%s %s %d %s", baza_danych[i].imie, baza_danych[i].nazwisko, &baza_danych[i].wiek, baza_danych[i].miasto);         printf("\n%s %s %d %s", baza_danych[i].imie, baza_danych[i].nazwisko, &baza_danych[i].wiek, baza_danych[i].miasto); }     fclose(pFile);
-	}
-}
+/*
 void cut(record* database)
-=======
         db[i].filled = 1;
 }
-
+nie rozumiem tej funkcji do końca
+*/ 
 void cut()
->>>>>>> origin/master
 {
 	int i=0;
         
