@@ -53,21 +53,21 @@ void allocBase(int numberOfRecords)
 	}
 }
 
-void printAllRecords(record* database)
+void printAllRecords()
 {
 	int i = 0;
 	for (i = 0; i<NUM_OF_RECORDS; ++i)
 	{
-		printf("%s, %s, %d, %s, %d\n", database[i].surname, database[i].name, database[i].age, database[i].city, database[i].salary);
+		printf("%s, %s, %d, %s, %d\n", db[i].surname, db[i].name, db[i].age, db[i].city, db[i].salary);
 	}
 }
 
-int findFirst(record* database) //chcialbym, zeby ta funkcja zwracala int, zeby pozniej mogl przypisac "i" do findFirst
+int findFirst() //chcialbym, zeby ta funkcja zwracala int, zeby pozniej mogl przypisac "i" do findFirst
 {
 	int i = 0;
 	for (i = 0; i<NUM_OF_RECORDS; ++i)
 	{
-		if ( !database[i].filled )
+		if ( !db[i].filled )
 		{
 			return i;
 		}
@@ -75,22 +75,22 @@ int findFirst(record* database) //chcialbym, zeby ta funkcja zwracala int, zeby 
 	return i;
 }
 
-void add(record* database)
+void add(void)
 {
-	int i = findFirst(database);
+	int i = findFirst();
         
         printf("Bedziemy wypelniac rekord nr %d.\n", i);
         
 	printf("Wprowadz nazwisko:\n");
-	scanf("%s", database[i].surname);
+	scanf("%s", db[i].surname);
 	printf("Wprowadz imie:\n");
-	scanf("%s", database[i].name);
+	scanf("%s", db[i].name);
 	printf("Wprowadz wiek:\n");
-	scanf("%d", &database[i].age);
+	scanf("%d", &db[i].age);
 	printf("Wprowadz miasto:\n");
-	scanf("%s", database[i].city);
+	scanf("%s", db[i].city);
 	printf("Wprowadz pensje:\n");
-	scanf("%d", &database[i].salary);
+	scanf("%d", &db[i].salary);
 }
 
 void cut(record* database)
@@ -111,7 +111,7 @@ void cut(record* database)
 	db[i].filled = 0;
 }
 
-void edit(record* database)
+void edit()
 {
 	int i=0;
         
@@ -123,15 +123,15 @@ void edit(record* database)
 	}while(i<0 || i>=NUM_OF_RECORDS);
         
         printf("Wprowadz nazwisko:\n");
-	scanf("%s", database[i].surname);
+	scanf("%s", db[i].surname);
 	printf("Wprowadz imie:\n");
-	scanf("%s", database[i].name);
+	scanf("%s", db[i].name);
 	printf("Wprowadz wiek:\n");
-	scanf("%d", &database[i].age);
+	scanf("%d", &db[i].age);
 	printf("Wprowadz miasto:\n");
-	scanf("%s", database[i].city);
+	scanf("%s", db[i].city);
 	printf("Wprowadz pensje:\n");
-	scanf("%d", &database[i].salary);
+	scanf("%d", &db[i].salary);
 }
 
 char menuText[LAST_MENU][41] = {
@@ -155,7 +155,7 @@ void printMenu(void)
 	}
 }
 
-int askMenu(record* database)
+int askMenu()
 {
 	int pozycjaMenu = 0;
 	printf("Wybierz opcje (0-8)");
@@ -169,16 +169,16 @@ int askMenu(record* database)
 		printf("Baza zostala zapisana do pliku");
 		break;
 	case ADD:
-		add(database);
+		add();
 		break;
 	case CUT:
-		cut(database);
+		cut();
 		break;
 	case EDIT:
-		edit(database);
+		edit();
 		break;
 	case SHOW:
-		printAllRecords(database);
+		printAllRecords();
 		break;
 	case SORT_AGE:
 		printf("Posortowano wg wieku");
