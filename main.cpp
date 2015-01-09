@@ -11,7 +11,7 @@ MENU: dodawanie, zapis, odczyt, usun, edycja, sortowanie po nazwisko, wieku, zap
 #include <string.h>
 
 
-const int NUM_OF_RECORDS = 100;
+const int NUM_OF_RECORDS = 4;
 
 enum MENU
 {
@@ -26,32 +26,31 @@ enum MENU
 	EXIT,
 	LAST_MENU
 };
+const int TEXT_LEN = 20;
 typedef struct dbRecords
 {
-	char* surname;
-	char* name;
+	char surname[TEXT_LEN];
+	char name[TEXT_LEN];
 	int age;
-	char* city;
+	char city[TEXT_LEN];
 	int salary;
+        int filled;
 } record;
 
-record* db;
+record db[NUM_OF_RECORDS];
 
-record* allocBase(int numberOfRecords)
+void allocBase(int numberOfRecords)
 {
-	int i = 0;
-	int memoryNeeded = sizeof(record*) * numberOfRecords;
-	record* database = (record*)malloc(memoryNeeded);
-
-	for (i = 0; i < NUM_OF_RECORDS; ++i)
+	int len = 20;
+	for (int i = 0; i < numberOfRecords; ++i)
 	{
-		database[i].surname = '\0';
-		database[i].name = '\0';
-		database[i].age = 0;
-		database[i].city = '\0';
-		database[i].salary = 0;
+		db[i].surname[0] = '\0';
+		db[i].name[0] = '\0';
+		db[i].age = 0;
+		db[i].city[0] = '\0';
+		db[i].salary = 0;
+                db[i].filled = 0;
 	}
-	return database;
 }
 
 void printAllRecords(record* database)
@@ -68,7 +67,7 @@ int findFirst(record* database) //chcialbym, zeby ta funkcja zwracala int, zeby 
 	int i = 0;
 	for (i = 0; i<NUM_OF_RECORDS; ++i)
 	{
-		if ((database[i].surname = '\0') && (database[i].name = '\0') && (database[i].age = 0) && (database[i].city = '\0') && (database[i].salary = 0))
+		if ( !database[i].filled )
 		{
 			return i;
 		}
@@ -78,10 +77,10 @@ int findFirst(record* database) //chcialbym, zeby ta funkcja zwracala int, zeby 
 
 void add(record* database)
 {
-	database[NUM_OF_RECORDS].surname = (char*)malloc(20);
-	database[NUM_OF_RECORDS].name = (char*)malloc(20);
-	database[NUM_OF_RECORDS].city = (char*)malloc(20);
 	int i = findFirst(database);
+        
+        printf("Bedziemy wypelniac rekord nr %d.\n", i);
+        
 	printf("Wprowadz nazwisko:\n");
 	scanf("%s", database[i].surname);
 	printf("Wprowadz imie:\n");
@@ -96,32 +95,35 @@ void add(record* database)
 
 void cut(record* database)
 {
-	int i = 0;
-	printf("Ktory rekord wyciac?");
-	scanf("%d", &i);
-	printf("Wprowadz nazwisko:\n");
-	scanf("%s", database[i].surname);
-	printf("Wprowadz imie:\n");
-	scanf("%s", database[i].name);
-	printf("Wprowadz wiek:\n");
-	scanf("%d", &database[i].age);
-	printf("Wprowadz miasto:\n");
-	scanf("%s", database[i].city);
-	printf("Wprowadz pensje:\n");
-	scanf("%d", &database[i].salary);
+	int i=0;
+        
+        do
+        {
+		printf("Ktory rekord wyciac? Podaj liczbe z zakresu 1 do %d:", NUM_OF_RECORDS);
+		scanf("%d", &i);
+		i = i - 1;
+	}while(i<0 || i>=NUM_OF_RECORDS);
+	db[i].surname[0] = '\0';
+	db[i].name[0] = '\0';
+	db[i].age = 0;
+	db[i].city[0] = '\0';
+	db[i].salary = 0;
+	db[i].filled = 0;
 }
 
 void edit(record* database)
 {
-	int i = 0;
-	printf("Ktory rekord edytowac??");
-	scanf("%d", &i);
-	i = i - 1;
-	printf("Wprowadz nazwisko:\n");
+	int i=0;
+        
+        do
+        {
+		printf("Ktory rekord edytowac? Podaj liczbe z zakresu 1 do %d:", NUM_OF_RECORDS);
+		scanf("%d", &i);
+		i = i - 1;
+	}while(i<0 || i>=NUM_OF_RECORDS);
+        
+        printf("Wprowadz nazwisko:\n");
 	scanf("%s", database[i].surname);
-	//scanf("%s", tempText);
-	//strcpy(database[i].name, tempText);
-
 	printf("Wprowadz imie:\n");
 	scanf("%s", database[i].name);
 	printf("Wprowadz wiek:\n");
@@ -194,8 +196,7 @@ int main()
 {
 	//record* database = allocBase(NUM_OF_RECORDS);
 	int succes = 0;
-	db = (record*)malloc(sizeof(record) * NUM_OF_RECORDS);
-
+        allocBase(NUM_OF_RECORDS);
 
 	while (succes == 0)
 	{
