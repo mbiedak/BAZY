@@ -91,6 +91,7 @@ void add(void)
 	scanf("%s", db[i].city);
 	printf("Wprowadz pensje:\n");
 	scanf("%d", &db[i].salary);
+<<<<<<< HEAD
 	db[i].filled = 1;
 }
 
@@ -111,6 +112,12 @@ void open()
 	}
 }
 void cut(record* database)
+=======
+        db[i].filled = 1;
+}
+
+void cut()
+>>>>>>> origin/master
 {
 	int i=0;
         
@@ -149,6 +156,7 @@ void edit()
 	scanf("%s", db[i].city);
 	printf("Wprowadz pensje:\n");
 	scanf("%d", &db[i].salary);
+        db[i].filled = 1;
 }
 
 char menuText[LAST_MENU][41] = {
@@ -170,6 +178,42 @@ void printMenu(void)
 	{
 		printf("%d %s\n", i, menuText[i]);
 	}
+}
+
+void copyRecord(record* source, record* dest)
+{
+    dest->age = source->age;
+    dest->filled = source->filled;
+    dest->salary = source->salary;
+    
+    strcpy(dest->city, source->city);
+    strcpy(dest->name, source->name);
+    strcpy(dest->surname, source->surname);
+}
+
+void switchRecords(record* a, record* b)
+{
+    record temp;
+    copyRecord(a, &temp);
+    copyRecord(b, a);
+    copyRecord(&temp, b);
+}
+
+void sortAge(void)
+{
+    int changes = 1;
+    while(changes>0)
+    {
+        changes = 0;
+        for(int i=0; i<NUM_OF_RECORDS-1; i++)
+        {
+            if(db[i].age > db[i+1].age)
+            {
+                changes++;
+                switchRecords(&db[i], &db[i+1]);
+            }
+        }
+    }
 }
 
 int askMenu()
@@ -198,6 +242,7 @@ int askMenu()
 		printAllRecords();
 		break;
 	case SORT_AGE:
+                sortAge();
 		printf("Posortowano wg wieku");
 		break;
 	case SORT_NAME:
@@ -211,14 +256,13 @@ int askMenu()
 
 int main()
 {
-	//record* database = allocBase(NUM_OF_RECORDS);
 	int succes = 0;
         allocBase(NUM_OF_RECORDS);
 
 	while (succes == 0)
 	{
 		printMenu();
-		succes = askMenu(db);
+		succes = askMenu();
 	}
 
 	scanf("%s");
