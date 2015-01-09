@@ -34,7 +34,7 @@ typedef struct dbRecords
 	int age;
 	char city[TEXT_LEN];
 	int salary;
-        int filled;
+	int filled;
 } record;
 
 record db[NUM_OF_RECORDS];
@@ -91,8 +91,25 @@ void add(void)
 	scanf("%s", db[i].city);
 	printf("Wprowadz pensje:\n");
 	scanf("%d", &db[i].salary);
+	db[i].filled = 1;
 }
 
+void open()
+{
+	FILE * pFile;
+	pFile = fopen("baza.txt", "r");
+	fscanf(pFile, "%d", &NUM_OF_RECORDS);
+	printf("%d", NUM_OF_RECORDS);
+	baza_danych = (struct osoba*)malloc(100 * sizeof(struct osoba));
+	int i = 0; 
+	for (i; i<liczba_elementow; i++)
+	{
+		baza_danych[i].imie = (char*)malloc(30);
+		baza_danych[i].nazwisko = (char*)malloc(30);
+		baza_danych[i].miasto = (char*)malloc(30);
+		fscanf(pFile, "\n%s %s %d %s", baza_danych[i].imie, baza_danych[i].nazwisko, &baza_danych[i].wiek, baza_danych[i].miasto);         printf("\n%s %s %d %s", baza_danych[i].imie, baza_danych[i].nazwisko, &baza_danych[i].wiek, baza_danych[i].miasto); }     fclose(pFile);
+	}
+}
 void cut(record* database)
 {
 	int i=0;
