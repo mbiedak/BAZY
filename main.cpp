@@ -1,4 +1,4 @@
-﻿/*napisa program o strukturze:
+/*napisa program o strukturze:
 - imie
 - wiek
 - zarobki
@@ -7,7 +7,6 @@ MENU: dodawanie, zapis, odczyt, usun, edycja, sortowanie po nazwisko, wieku, zap
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <math.h>
-#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -204,7 +203,7 @@ int main()
 		succes = askMenu(db);
 	}
 
-	_getch();
+	scanf("%s");
 	return 0;
 }
 
