@@ -77,16 +77,23 @@ int findFirst() //chcialbym, zeby ta funkcja zwracala int, zeby pozniej mogl prz
 
 void open()
 {
-	FILE *pFILE; //identyfikator pliku
-	pFILE = fopen("baza.txt", "r");
-	int i = 0;
-	while ((fgets(buf, 256, pFILE)) != NULL)
-	{// oczywiscie nie bedzie dzialalo, bo cos z pamiecia jest nie halo
-		sscanf(buf, "%s %s %d %s %d", db[i].surname, db[i].name, &db[i].age, db[i].city, &db[i].salary);
-		++i;
-		db[i].filled = 1;
-	}
-	free(buf);
+    const char filename[] = "baza.txt";
+    FILE *file = fopen ( filename, "r" );
+    int i=0;
+    if ( file != NULL )
+    {
+        char line [ 128 ];
+        while ( fgets ( line, sizeof line, file ) != NULL )
+        {
+            sscanf(line, "%s %s %d %s %d", db[i].surname, db[i].name, &db[i].age, db[i].city, &db[i].salary);
+            i++;
+        }
+        fclose ( file );
+    }
+    else
+    {
+        perror ( filename );
+    }
 }
 
 void save()
@@ -117,12 +124,7 @@ void add(void)
 	scanf("%d", &db[i].salary);
 	db[i].filled = 1;
 }
-/*
-void cut(record* database)
-        db[i].filled = 1;
-}
-nie rozumiem tej funkcji do końca
-*/ 
+
 void cut()
 {
 	int i=0;
@@ -230,6 +232,7 @@ int askMenu()
 	switch (pozycjaMenu)
 	{
 	case OPEN:
+		open();
 		printf("Baza zostala pobrana");
 		break;
 	case SAVE:
