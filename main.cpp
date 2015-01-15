@@ -11,7 +11,7 @@ MENU: dodawanie, zapis, odczyt, usun, edycja, sortowanie po nazwisko, wieku, zap
 #include <string.h>
 
 
-const int NUM_OF_RECORDS = 4;
+const int NUM_OF_RECORDS = 100;
 
 enum MENU
 {
